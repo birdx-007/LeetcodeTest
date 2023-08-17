@@ -4,25 +4,28 @@ using namespace std;
 class Solution
 {
 public:
-    int findPeakElement(vector<int>& nums) {
-        int l = 0, r = (int)nums.size() - 1;
-        int res = 0;
-        while (l <= r) {
-            int mid = l + ((r - l) >> 1);
-            if (GetDiff(nums, mid) > 0) {
-                l = mid + 1;
-                res = mid;
-            }
-            else {
-                r = mid - 1;
+    int removeElement(vector<int>& nums, int val) {
+        int newSize = (int)nums.size();
+        for (int i = 0; i < newSize; i++) {
+            if (nums[i] == val) {
+                bool found = false;
+                for (int j = newSize - 1; j > i; j--) {
+                    if (nums[j] != val) {
+                        nums[j] = nums[j] ^ nums[i];
+                        nums[i] = nums[j] ^ nums[i];
+                        nums[j] = nums[j] ^ nums[i];
+                        newSize--;
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found) {
+                    newSize = i;
+                    break;
+                }
             }
         }
-        return res;
-    }
-    int GetDiff(vector<int>& nums, int index) {
-        if (index == 0) {
-            return INT_MAX;
-        }
-        return nums[index] - nums[index - 1];
+        nums.resize(newSize);
+        return newSize;
     }
 };
