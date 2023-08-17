@@ -7,6 +7,7 @@ class SolutionTest
 public:
 	void TestSolution() {
 		//std::cout << Tools::QuickPowForPositivePower(2,10) << std::endl;
+		std::cout << solution.mySqrt(0);
 	}
 private:
 	Solution solution;

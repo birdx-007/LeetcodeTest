@@ -14,4 +14,10 @@ public:
         }
         return res;
     }
+    static float QuickSqrtForFloat(float x) {
+        int i = *(int*)&x;
+        i = 0x1fbd1df5 + (i >> 1);
+        x = *(float*)&i;
+        return x;
+    }
 };

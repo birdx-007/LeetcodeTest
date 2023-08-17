@@ -1,38 +1,21 @@
 #pragma once
 #include <vector>
 using namespace std;
-struct ListNode {
-    int val;
-    ListNode* next;
-    ListNode() : val(0), next(nullptr) {}
-    ListNode(int x) : val(x), next(nullptr) {}
-    ListNode(int x, ListNode* next) : val(x), next(next) {}
-};
 class Solution
 {
 public:
-    ListNode* swapPairs(ListNode* head) {
-        ListNode* p = head;
-        ListNode* q = nullptr;
-        ListNode* r = nullptr;
-        ListNode* pOld = nullptr;
-        while (p != nullptr) {
-            q = p->next;
-            if (q == nullptr) {
-                break;
+    int mySqrt(int x) {
+        int l = 0, r = x, res = -1;
+        while (l <= r) {
+            int mid = l + ((r - l) >> 1);
+            if ((long long)mid * mid <= x) {
+                res = mid;
+                l = mid + 1;
             }
-            if (p == head) {
-                head = q;
+            else {
+                r = mid - 1;
             }
-            r = q->next;
-            p->next = r;
-            q->next = p;
-            if (pOld != nullptr) {
-                pOld->next = q;
-            }
-            pOld = p;
-            p = r;
         }
-        return head;
+        return res;
     }
 };
