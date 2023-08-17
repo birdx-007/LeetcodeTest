@@ -1,28 +1,38 @@
 #pragma once
 #include <vector>
 using namespace std;
+struct ListNode {
+    int val;
+    ListNode* next;
+    ListNode() : val(0), next(nullptr) {}
+    ListNode(int x) : val(x), next(nullptr) {}
+    ListNode(int x, ListNode* next) : val(x), next(next) {}
+};
 class Solution
 {
 public:
-    vector<vector<int>> permute(vector<int>& nums) {
-        if (nums.size() == 1) {
-            vector<vector<int>> single(1, nums);
-            return single;
-        }
-        vector<int> sub(nums);
-        int x = sub[nums.size() - 1];
-        sub.pop_back();
-        int spaceNumOfSub = sub.size() + 1;
-        vector<vector<int>> subPermutes = permute(sub);
-        vector<vector<int>> result(spaceNumOfSub * subPermutes.size());
-        for (int i = 0; i < subPermutes.size(); i++) {
-            vector<int> subPermute = subPermutes[i];
-            for (int j = 0; j < spaceNumOfSub; j++) {
-                int index = i * spaceNumOfSub + j;
-                result[index] = vector<int>(subPermute);
-                result[index].insert(result[index].begin() + j, x);
+    ListNode* swapPairs(ListNode* head) {
+        ListNode* p = head;
+        ListNode* q = nullptr;
+        ListNode* r = nullptr;
+        ListNode* pOld = nullptr;
+        while (p != nullptr) {
+            q = p->next;
+            if (q == nullptr) {
+                break;
             }
+            if (p == head) {
+                head = q;
+            }
+            r = q->next;
+            p->next = r;
+            q->next = p;
+            if (pOld != nullptr) {
+                pOld->next = q;
+            }
+            pOld = p;
+            p = r;
         }
-        return result;
+        return head;
     }
 };
