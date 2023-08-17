@@ -4,28 +4,18 @@ using namespace std;
 class Solution
 {
 public:
-    int removeElement(vector<int>& nums, int val) {
-        int newSize = (int)nums.size();
-        for (int i = 0; i < newSize; i++) {
-            if (nums[i] == val) {
-                bool found = false;
-                for (int j = newSize - 1; j > i; j--) {
-                    if (nums[j] != val) {
-                        nums[j] = nums[j] ^ nums[i];
-                        nums[i] = nums[j] ^ nums[i];
-                        nums[j] = nums[j] ^ nums[i];
-                        newSize--;
-                        found = true;
-                        break;
-                    }
-                }
-                if (!found) {
-                    newSize = i;
-                    break;
-                }
+    int removeDuplicates(vector<int>& nums) {
+        int numsSize = (int)nums.size();
+        if (numsSize == 0) {
+            return 0;
+        }
+        int slow = 0;
+        for (int quick = 0; quick < numsSize; quick++) {
+            if (nums[quick] != nums[slow]) {
+                slow++;
+                nums[slow] = nums[quick];
             }
         }
-        nums.resize(newSize);
-        return newSize;
+        return slow+1;
     }
 };
