@@ -4,33 +4,25 @@ using namespace std;
 class Solution
 {
 public:
-    vector<int> searchRange(vector<int>& nums, int target) {
-        int l = BinarySearch(nums, target - 1) + 1;
-        int r = BinarySearch(nums, target);
-        if (l <= r) {
-            return vector<int>{l, r};
-        }
-        else {
-            return vector<int>{-1, -1};
-        }
-    }
-    /// <summary>
-    /// 寻找出现target范围的右边界
-    /// </summary>
-    /// <param name="nums"></param>
-    /// <param name="target"></param>
-    /// <returns></returns>
-    int BinarySearch(vector<int>& nums, int target) {
-        int l = 0, r = (int)nums.size() - 1;
+    bool searchMatrix(vector<vector<int>>& matrix, int target) {
+        int l = 0, r = matrix.size() * matrix[0].size() - 1;
         while (l <= r) {
             int mid = l + ((r - l) >> 1);
-            if (nums[mid] <= target) {
+            int midValue = GetMatrixValue(matrix, mid);
+            if (midValue < target) {
                 l = mid + 1;
             }
-            else {
+            else if (midValue > target) {
                 r = mid - 1;
             }
+            else {
+                return true;
+            }
         }
-        return l - 1;
+        return false;
+
+    }
+    int GetMatrixValue(vector<vector<int>>& matrix, int index) {
+        return matrix[index / (int)matrix[0].size()][index % (int)matrix[0].size()];
     }
 };
