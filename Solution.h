@@ -1,28 +1,31 @@
 #pragma once
 #include <vector>
 using namespace std;
+struct ListNode {
+    int val;
+    ListNode* next;
+    ListNode(int x) : val(x), next(NULL) {}
+};
 class Solution
 {
 public:
-    bool searchMatrix(vector<vector<int>>& matrix, int target) {
-        int l = 0, r = matrix.size() * matrix[0].size() - 1;
-        while (l <= r) {
-            int mid = l + ((r - l) >> 1);
-            int midValue = GetMatrixValue(matrix, mid);
-            if (midValue < target) {
-                l = mid + 1;
-            }
-            else if (midValue > target) {
-                r = mid - 1;
-            }
-            else {
+    bool hasCycle(ListNode* head) {
+        ListNode* quick = head;
+        ListNode* slow = head;
+        while (quick != nullptr) {
+            quick = quick->next;
+            if (quick == slow) {
                 return true;
             }
+            if (quick == nullptr) {
+                break;
+            }
+            quick = quick->next;
+            if (quick == slow) {
+                return true;
+            }
+            slow = slow->next;
         }
         return false;
-
-    }
-    int GetMatrixValue(vector<vector<int>>& matrix, int index) {
-        return matrix[index / (int)matrix[0].size()][index % (int)matrix[0].size()];
     }
 };
