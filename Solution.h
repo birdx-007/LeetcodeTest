@@ -4,18 +4,27 @@ using namespace std;
 class Solution
 {
 public:
-    int maxArea(vector<int>& height) {
-        int l = 0, r = (int)height.size() - 1;
-        int area = 0;
-        while (l < r) {
-            area = max(area, min(height[l], height[r]) * (r - l));
-            if (height[l] >= height[r]) {
-                r--;
+    bool isPalindrome(string s) {
+        string raw = "";
+        for (char c : s) {
+            if (c >= 'A' && c <= 'Z') {
+                raw += (char)(c - ('A' - 'a'));
             }
-            else {
-                l++;
+            else if (c >= 'a' && c <= 'z') {
+                raw += c;
+            }
+            else if (c >= '0' && c <= '9') {
+                raw += c;
             }
         }
-        return area;
+        int l = 0, r = (int)raw.size() - 1;
+        while (l < r) {
+            if (raw[l] != raw[r]) {
+                return false;
+            }
+            l++;
+            r--;
+        }
+        return true;
     }
 };
