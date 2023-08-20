@@ -4,27 +4,18 @@ using namespace std;
 class Solution
 {
 public:
-    bool isPalindrome(string s) {
-        string raw = "";
-        for (char c : s) {
-            if (c >= 'A' && c <= 'Z') {
-                raw += (char)(c - ('A' - 'a'));
+    void merge(vector<int>& nums1, int m, vector<int>& nums2, int n) {
+        int i = m + n - 1;
+        while (n > 0) {
+            if (m == 0 || nums1[m - 1] <= nums2[n - 1]) {
+                nums1[i] = nums2[n - 1];
+                n--;
             }
-            else if (c >= 'a' && c <= 'z') {
-                raw += c;
+            else {
+                nums1[i] = nums1[m - 1];
+                m--;
             }
-            else if (c >= '0' && c <= '9') {
-                raw += c;
-            }
+            i--;
         }
-        int l = 0, r = (int)raw.size() - 1;
-        while (l < r) {
-            if (raw[l] != raw[r]) {
-                return false;
-            }
-            l++;
-            r--;
-        }
-        return true;
     }
 };
