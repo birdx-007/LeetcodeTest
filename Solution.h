@@ -4,14 +4,18 @@ using namespace std;
 class Solution
 {
 public:
-    int majorityElement(vector<int>& nums) {
-        int candidate = -1, count = 0;
-        for (int num : nums) {
-            if (count == 0) {
-                candidate = num;
+    int maxArea(vector<int>& height) {
+        int l = 0, r = (int)height.size() - 1;
+        int area = 0;
+        while (l < r) {
+            area = max(area, min(height[l], height[r]) * (r - l));
+            if (height[l] >= height[r]) {
+                r--;
             }
-            count += (num == candidate) ? 1 : -1;
+            else {
+                l++;
+            }
         }
-        return candidate;
+        return area;
     }
 };
