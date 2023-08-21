@@ -1,21 +1,34 @@
 #pragma once
 #include <vector>
+#include <algorithm>
+#include <set>
 using namespace std;
 class Solution
 {
 public:
-    void merge(vector<int>& nums1, int m, vector<int>& nums2, int n) {
-        int i = m + n - 1;
-        while (n > 0) {
-            if (m == 0 || nums1[m - 1] <= nums2[n - 1]) {
-                nums1[i] = nums2[n - 1];
-                n--;
+    int removeDuplicates(vector<int>& nums) {
+        int numsSize = (int)nums.size();
+        if (numsSize == 0 || numsSize == 1) {
+            return numsSize;
+        }
+        int slow = 0;
+        int tolerance = 2;
+        int count = 0;
+        for (int quick = 0; quick < numsSize; quick++) {
+            if (nums[slow] == nums[quick]) {
+                count++;
             }
             else {
-                nums1[i] = nums1[m - 1];
-                m--;
+                int offset = min(count, tolerance);
+                slow += offset;
+                for (int i = slow; i < min(slow + tolerance, quick); i++) {
+                    nums[i] = nums[quick];
+                }
+                count = 1;
             }
-            i--;
         }
+        int offset = min(count, tolerance);
+        slow += offset - 1;
+        return slow + 1;
     }
 };
