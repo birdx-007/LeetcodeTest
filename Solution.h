@@ -6,29 +6,21 @@ using namespace std;
 class Solution
 {
 public:
-    int removeDuplicates(vector<int>& nums) {
-        int numsSize = (int)nums.size();
-        if (numsSize == 0 || numsSize == 1) {
-            return numsSize;
-        }
-        int slow = 0;
-        int tolerance = 2;
-        int count = 0;
-        for (int quick = 0; quick < numsSize; quick++) {
-            if (nums[slow] == nums[quick]) {
-                count++;
+    int minSubArrayLen(int target, vector<int>& nums) {
+        int start = 0, end = 0, sum = 0;
+        int res = INT_MAX;
+        while (end < (int)nums.size()) {
+            sum += nums[end];
+            while (sum >= target) {
+                res = min(res, end - start + 1);
+                sum -= nums[start];
+                start++;
             }
-            else {
-                int offset = min(count, tolerance);
-                slow += offset;
-                for (int i = slow; i < min(slow + tolerance, quick); i++) {
-                    nums[i] = nums[quick];
-                }
-                count = 1;
-            }
+            end++;
         }
-        int offset = min(count, tolerance);
-        slow += offset - 1;
-        return slow + 1;
+        if (res == INT_MAX) {
+            return 0;
+        }
+        return res;
     }
 };
