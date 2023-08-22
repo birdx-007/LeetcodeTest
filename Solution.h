@@ -1,27 +1,42 @@
 #pragma once
+#include "ListNode.h"
 #include <vector>
 #include <string>
 #include <unordered_set>
 #include <algorithm>
 using namespace std;
-class Solution
-{
+class Solution {
 public:
-    int lengthOfLongestSubstring(string s) {
-        int start = 0, end = 0;
-        int res = 0;
-        unordered_set<char> charSet;
-        while (end < s.length()) {
-            if (charSet.count(s[end])==0) {
-                res = max(res, end - start + 1);
-                charSet.insert(s[end]);
-                end++;
+    ListNode* removeNthFromEnd(ListNode* head, int n) {
+        ListNode* fast = head;
+        while (n > 1) {
+            if (fast == nullptr) {
+                return head;
             }
-            else {
-                charSet.erase(s[start]);
-                start++;
-            }
+            fast = fast->next;
+            n--;
         }
-        return res;
+        if (fast == nullptr) {
+            return head;
+        }
+        else if (fast->next == nullptr) {
+            ListNode* newHead = head->next;
+            head->next = nullptr;
+            delete head;
+            return newHead;
+        }
+        else {
+            fast = fast->next;
+        }
+        ListNode* slow = head;
+        while (fast->next != nullptr) {
+            slow = slow->next;
+            fast = fast->next;
+        }
+        ListNode* toBeRemoved = slow->next;
+        slow->next = toBeRemoved->next;
+        toBeRemoved->next = nullptr;
+        delete toBeRemoved;
+        return head;
     }
 };
