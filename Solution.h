@@ -1,25 +1,26 @@
 #pragma once
 #include <vector>
+#include <string>
+#include <unordered_set>
 #include <algorithm>
-#include <set>
 using namespace std;
 class Solution
 {
 public:
-    int minSubArrayLen(int target, vector<int>& nums) {
-        int start = 0, end = 0, sum = 0;
-        int res = INT_MAX;
-        while (end < (int)nums.size()) {
-            sum += nums[end];
-            while (sum >= target) {
-                res = min(res, end - start + 1);
-                sum -= nums[start];
+    int lengthOfLongestSubstring(string s) {
+        int start = 0, end = 0;
+        int res = 0;
+        unordered_set<char> charSet;
+        while (end < s.length()) {
+            if (charSet.count(s[end])==0) {
+                res = max(res, end - start + 1);
+                charSet.insert(s[end]);
+                end++;
+            }
+            else {
+                charSet.erase(s[start]);
                 start++;
             }
-            end++;
-        }
-        if (res == INT_MAX) {
-            return 0;
         }
         return res;
     }

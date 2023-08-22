@@ -7,9 +7,8 @@ class SolutionTest
 public:
 	void TestSolution() {
 		//std::cout << Tools::QuickPowForPositivePower(2,10) << std::endl;
-		int target = 7;
-		vector<int> nums = { 2,3,1,2,4,3 };
-		std::cout << solution.minSubArrayLen(target,nums);
+		string s = "abcabcab";
+		std::cout << solution.lengthOfLongestSubstring(s);
 	}
 private:
 	Solution solution;
