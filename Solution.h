@@ -8,12 +8,13 @@
 using namespace std;
 class Solution {
 public:
-    int maxDepth(TreeNode* root) {
-        if (root == nullptr) {
-            return 0;
+    int trailingZeroes(int n) {
+        int num5 = 0;
+        while (n)
+        {
+            n /= 5;
+            num5 += n;
         }
-        int leftDepth = maxDepth(root->left) + 1;
-        int rightDepth = maxDepth(root->right) + 1;
-        return max(leftDepth, rightDepth);
+        return num5;
     }
 };
