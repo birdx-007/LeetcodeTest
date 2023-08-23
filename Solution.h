@@ -7,36 +7,30 @@
 using namespace std;
 class Solution {
 public:
-    ListNode* removeNthFromEnd(ListNode* head, int n) {
-        ListNode* fast = head;
-        while (n > 1) {
-            if (fast == nullptr) {
-                return head;
+    vector<string> summaryRanges(vector<int>& nums) {
+        vector<string> res;
+        int start = 0, end = 0;
+        for (int i = 1; i < (int)nums.size(); i++)
+        {
+            if (nums[i] != nums[end] + 1) {
+                if (start == end) {
+                    res.push_back(to_string(nums[start]));
+                }
+                else {
+                    res.push_back(to_string(nums[start]) + "->" + to_string(nums[end]));
+                }
+                start = i;
             }
-            fast = fast->next;
-            n--;
+            end = i;
         }
-        if (fast == nullptr) {
-            return head;
+        if (start <= (int)nums.size() - 1) {
+            if (start == end) {
+                res.push_back(to_string(nums[start]));
+            }
+            else {
+                res.push_back(to_string(nums[start]) + "->" + to_string(nums[end]));
+            }
         }
-        else if (fast->next == nullptr) {
-            ListNode* newHead = head->next;
-            head->next = nullptr;
-            delete head;
-            return newHead;
-        }
-        else {
-            fast = fast->next;
-        }
-        ListNode* slow = head;
-        while (fast->next != nullptr) {
-            slow = slow->next;
-            fast = fast->next;
-        }
-        ListNode* toBeRemoved = slow->next;
-        slow->next = toBeRemoved->next;
-        toBeRemoved->next = nullptr;
-        delete toBeRemoved;
-        return head;
+        return res;
     }
 };
