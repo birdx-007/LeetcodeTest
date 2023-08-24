@@ -8,13 +8,13 @@
 using namespace std;
 class Solution {
 public:
-    int trailingZeroes(int n) {
-        int num5 = 0;
-        while (n)
-        {
-            n /= 5;
-            num5 += n;
+    int climbStairs(int n) {
+        int p = 0, q = 0, r = 1;
+        for (int i = 0; i < n; i++) {
+            p = q;
+            q = r;
+            r = p + q;
         }
-        return num5;
+        return r;
     }
 };
