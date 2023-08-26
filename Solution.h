@@ -9,38 +9,14 @@
 using namespace std;
 class Solution {
 public:
-    int evalRPN(vector<string>& tokens) {
-        stack<string> operationSpace;
-        for (string token : tokens) {
-            if (token.length() == 1) {
-                char c = token[0];
-                if (c == '+' || c == '-' || c == '*' || c == '/') {
-                    int right = atoi(operationSpace.top().c_str());
-                    operationSpace.pop();
-                    int left = atoi(operationSpace.top().c_str());
-                    operationSpace.pop();
-                    int result;
-                    switch (c)
-                    {
-                    case '+':
-                        result = left + right;
-                        break;
-                    case '-':
-                        result = left - right;
-                        break;
-                    case '*':
-                        result = left * right;
-                        break;
-                    default:
-                        result = left / right;
-                        break;
-                    }
-                    operationSpace.push(to_string(result));
-                    continue;
-                }
+    bool isSubsequence(string s, string t) {
+        int ptrs = 0, ptrt = 0;
+        while (ptrs < s.length() && ptrt < t.length()) {
+            if (s[ptrs] == t[ptrt]) {
+                ptrs++;
             }
-            operationSpace.push(token);
+            ptrt++;
         }
-        return atoi(operationSpace.top().c_str());
+        return ptrs == s.length();
     }
 };
