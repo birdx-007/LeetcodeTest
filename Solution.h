@@ -9,14 +9,30 @@
 using namespace std;
 class Solution {
 public:
-    bool isSubsequence(string s, string t) {
-        int ptrs = 0, ptrt = 0;
-        while (ptrs < s.length() && ptrt < t.length()) {
-            if (s[ptrs] == t[ptrt]) {
-                ptrs++;
+    void setZeroes(vector<vector<int>>& matrix) {
+        vector<bool> rowZero((int)matrix.size(), false);
+        vector<bool> colZero((int)matrix[0].size(), false);
+        for (int i = 0; i < (int)matrix.size(); i++) {
+            for (int j = 0; j < (int)matrix[0].size(); j++) {
+                if (matrix[i][j] == 0) {
+                    rowZero[i] = colZero[j] = true;
+                }
+                else {
+                    if (rowZero[i]||colZero[j]) {
+                        matrix[i][j] = 0;
+                    }
+                }
             }
-            ptrt++;
         }
-        return ptrs == s.length();
+        for (int i = 0; i < (int)matrix.size(); i++) {
+            for (int j = 0; j < (int)matrix[0].size(); j++) {
+                if (matrix[i][j] == 0) {
+                    continue;
+                }
+                if (rowZero[i] || colZero[j]) {
+                    matrix[i][j] = 0;
+                }
+            }
+        }
     }
 };
