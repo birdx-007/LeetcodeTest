@@ -9,30 +9,29 @@
 using namespace std;
 class Solution {
 public:
-    void setZeroes(vector<vector<int>>& matrix) {
-        vector<bool> rowZero((int)matrix.size(), false);
-        vector<bool> colZero((int)matrix[0].size(), false);
-        for (int i = 0; i < (int)matrix.size(); i++) {
-            for (int j = 0; j < (int)matrix[0].size(); j++) {
-                if (matrix[i][j] == 0) {
-                    rowZero[i] = colZero[j] = true;
-                }
-                else {
-                    if (rowZero[i]||colZero[j]) {
-                        matrix[i][j] = 0;
-                    }
-                }
-            }
+    void rotate(vector<int>& nums, int k) {
+        int n = nums.size();
+        k %= n;
+        if (k == 0) {
+            return;
         }
-        for (int i = 0; i < (int)matrix.size(); i++) {
-            for (int j = 0; j < (int)matrix[0].size(); j++) {
-                if (matrix[i][j] == 0) {
-                    continue;
+        int cnt = gcd(n, k);
+        for (int i = 0; i < cnt; i++) {
+            int cur = i;
+            int nxt = (cur + k) % n;
+            int tmp = nums[cur];
+            do {
+                {
+                    tmp = tmp ^ nums[nxt];
+                    nums[nxt] = tmp ^ nums[nxt];
+                    tmp = tmp ^ nums[nxt];
                 }
-                if (rowZero[i] || colZero[j]) {
-                    matrix[i][j] = 0;
-                }
-            }
+                cur = nxt;
+                nxt = (cur + k) % n;
+            } while (cur != i);
         }
+    }
+    int gcd(int a, int b) {
+        return b ? gcd(b, a % b) : a;
     }
 };
