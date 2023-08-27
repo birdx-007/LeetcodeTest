@@ -9,11 +9,10 @@
 using namespace std;
 class Solution {
 public:
-    int hammingWeight(uint32_t n) {
+    int singleNumber(vector<int>& nums) {
         int res = 0;
-        while (n) {
-            res += (n & 1);
-            n >>= 1;
+        for (int i = 0; i < (int)nums.size(); i++) {
+            res ^= nums[i];
         }
         return res;
     }
