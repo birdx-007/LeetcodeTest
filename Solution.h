@@ -9,30 +9,41 @@
 using namespace std;
 class Solution {
 public:
-    int numIslands(vector<vector<char>>& grid) {
-        int num = 0;
-        for (int i = 0; i < (int)grid.size(); i++) {
-            for (int j = 0; j < (int)grid[0].size(); j++) {
-                if (grid[i][j] == '1') {
-                    num++;
-                    dfs(grid,i,j);
+    string simplifyPath(string path) {
+        stack<string> files;
+        int start = 0, end = 0;
+        int n = path.length();
+        string file = "";
+        while (true) {
+            while (start < n && path[start] == '/') {
+                start++;
+                end++;
+            }
+            while (end < n && path[end] != '/') {
+                end++;
+            }
+            if (end == n && start == end) {
+                break;
+            }
+            file = path.substr(start, end - start);
+            if (file == "..") {
+                if (!files.empty()) {
+                    files.pop();
                 }
             }
+            else if (file != ".") {
+                files.push(file);
+            }
+            start = end;
         }
-        return num;
-    }
-    void dfs(vector<vector<char>>& grid,int i,int j) {
-        if (!isInGrid(grid, i, j) || grid[i][j]!='1') {
-            return;
+        string res = "";
+        while (!files.empty()) {
+            res = "/" + files.top() + res;
+            files.pop();
         }
-        grid[i][j] = '2';
-        dfs(grid, i - 1, j);
-        dfs(grid, i + 1, j);
-        dfs(grid, i, j - 1);
-        dfs(grid, i, j + 1);
-    }
-    bool isInGrid(vector<vector<char>>& grid, int i, int j) {
-        return i >= 0 && i < (int)grid.size()
-            && j >= 0 && j < (int)grid[0].size();
+        if (res == "") {
+            res = "/";
+        }
+        return res;
     }
 };
