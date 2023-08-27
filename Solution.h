@@ -9,29 +9,30 @@
 using namespace std;
 class Solution {
 public:
-    void rotate(vector<int>& nums, int k) {
-        int n = nums.size();
-        k %= n;
-        if (k == 0) {
+    int numIslands(vector<vector<char>>& grid) {
+        int num = 0;
+        for (int i = 0; i < (int)grid.size(); i++) {
+            for (int j = 0; j < (int)grid[0].size(); j++) {
+                if (grid[i][j] == '1') {
+                    num++;
+                    dfs(grid,i,j);
+                }
+            }
+        }
+        return num;
+    }
+    void dfs(vector<vector<char>>& grid,int i,int j) {
+        if (!isInGrid(grid, i, j) || grid[i][j]!='1') {
             return;
         }
-        int cnt = gcd(n, k);
-        for (int i = 0; i < cnt; i++) {
-            int cur = i;
-            int nxt = (cur + k) % n;
-            int tmp = nums[cur];
-            do {
-                {
-                    tmp = tmp ^ nums[nxt];
-                    nums[nxt] = tmp ^ nums[nxt];
-                    tmp = tmp ^ nums[nxt];
-                }
-                cur = nxt;
-                nxt = (cur + k) % n;
-            } while (cur != i);
-        }
+        grid[i][j] = '2';
+        dfs(grid, i - 1, j);
+        dfs(grid, i + 1, j);
+        dfs(grid, i, j - 1);
+        dfs(grid, i, j + 1);
     }
-    int gcd(int a, int b) {
-        return b ? gcd(b, a % b) : a;
+    bool isInGrid(vector<vector<char>>& grid, int i, int j) {
+        return i >= 0 && i < (int)grid.size()
+            && j >= 0 && j < (int)grid[0].size();
     }
 };
