@@ -10,25 +10,22 @@
 using namespace std;
 class Solution {
 public:
-    TreeNode* invertTree(TreeNode* root) {
+    bool isSymmetric(TreeNode* root) {
         if (root == nullptr) {
-            return root;
+            return true;
         }
-        queue<TreeNode*> q;
-        q.push(root);
-        while (!q.empty()) {
-            auto p = q.front();
-            q.pop();
-            auto tmp = p->left;
-            p->left = p->right;
-            p->right = tmp;
-            if (p->left != nullptr) {
-                q.push(p->left);
-            }
-            if (p->right != nullptr) {
-                q.push(p->right);
-            }
+        return compare(root->left, root->right);
+    }
+    bool compare(TreeNode* left, TreeNode* right) {
+        if ((left == nullptr) ^ (right == nullptr)) {
+            return false;
         }
-        return root;
+        if (left == nullptr && right == nullptr) {
+            return true;
+        }
+        if (left->val != right->val) {
+            return false;
+        }
+        return compare(left->left, right->right) && compare(left->right, right->left);
     }
 };
