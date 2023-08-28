@@ -10,40 +10,25 @@
 using namespace std;
 class Solution {
 public:
-    bool isSameTree(TreeNode* p, TreeNode* q) {
-        if (p == nullptr && q == nullptr) {
-            return true;
+    TreeNode* invertTree(TreeNode* root) {
+        if (root == nullptr) {
+            return root;
         }
-        else if (p == nullptr || q == nullptr) {
-            return false;
-        }
-        queue <TreeNode*> queue1, queue2;
-        queue1.push(p);
-        queue2.push(q);
-        while (!queue1.empty() && !queue2.empty()) {
-            auto node1 = queue1.front();
-            queue1.pop();
-            auto node2 = queue2.front();
-            queue2.pop();
-            if (node1->val != node2->val) {
-                return false;
+        queue<TreeNode*> q;
+        q.push(root);
+        while (!q.empty()) {
+            auto p = q.front();
+            q.pop();
+            auto tmp = p->left;
+            p->left = p->right;
+            p->right = tmp;
+            if (p->left != nullptr) {
+                q.push(p->left);
             }
-            auto left1 = node1->left, right1 = node1->right, left2 = node2->left, right2 = node2->right;
-            if ((left1 == nullptr) ^ (left2 == nullptr)) {
-                return false;
-            }
-            if ((right1 == nullptr) ^ (right2 == nullptr)) {
-                return false;
-            }
-            if (left1 != nullptr) {
-                queue1.push(left1);
-                queue2.push(left2);
-            }
-            if (right1 != nullptr) {
-                queue1.push(right1);
-                queue2.push(right2);
+            if (p->right != nullptr) {
+                q.push(p->right);
             }
         }
-        return queue1.empty() && queue2.empty();
+        return root;
     }
 };
