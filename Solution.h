@@ -10,22 +10,26 @@
 using namespace std;
 class Solution {
 public:
-    bool isSymmetric(TreeNode* root) {
-        if (root == nullptr) {
-            return true;
+    int searchInsert(vector<int>& nums, int target) {
+        if (target <= nums[0]) {
+            return 0;
         }
-        return compare(root->left, root->right);
-    }
-    bool compare(TreeNode* left, TreeNode* right) {
-        if ((left == nullptr) ^ (right == nullptr)) {
-            return false;
+        if (target > nums[(int)nums.size() - 1]) {
+            return (int)nums.size();
         }
-        if (left == nullptr && right == nullptr) {
-            return true;
+        int l = 0, r = nums.size() - 1;
+        while (l <= r) {
+            int m = l + ((r - l) >> 1);
+            if (nums[m] < target) {
+                l = m + 1;
+            }
+            else if (nums[m] > target) {
+                r = m - 1;
+            }
+            else {
+                return m;
+            }
         }
-        if (left->val != right->val) {
-            return false;
-        }
-        return compare(left->left, right->right) && compare(left->right, right->left);
+        return l;
     }
 };
