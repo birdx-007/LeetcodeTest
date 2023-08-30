@@ -11,16 +11,44 @@
 using namespace std;
 class Solution {
 public:
-    TreeNode* sortedArrayToBST(vector<int>& nums) {
-        int n = nums.size();
-        return buildChildTree(nums, 0, n - 1);
-    }
-    TreeNode* buildChildTree(vector<int>& nums, int l, int r) {
-        if (l > r) {
-            return nullptr;
+    string longestCommonPrefix(vector<string>& strs) {
+        int n = strs.size();
+        if (n == 1) {
+            return strs[0];
         }
-        int m = l + ((r - l) >> 1);
-        TreeNode* root = new TreeNode(nums[m], buildChildTree(nums, l, m - 1), buildChildTree(nums, m + 1, r));
-        return root;
+        int j = -1;
+        bool flag;
+        do {
+            flag = true;
+            char c;
+            for (int i = 0; i < n; i++) {
+                string s = strs[i];
+                if (s.length() == 0) {
+                    return "";
+                }
+                if (s.length() <= j + 1) {
+                    flag = false;
+                    break;
+                }
+                if (i == 0) {
+                    c = s[j + 1];
+                }
+                else {
+                    if (c != s[j + 1]) {
+                        flag = false;
+                        break;
+                    }
+                }
+            }
+            if (flag) {
+                j++;
+            }
+        } while (flag);
+        if (j == -1) {
+            return "";
+        }
+        else {
+            return strs[0].substr(0, j + 1);
+        }
     }
 };
