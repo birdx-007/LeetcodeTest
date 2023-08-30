@@ -11,44 +11,29 @@
 using namespace std;
 class Solution {
 public:
-    string longestCommonPrefix(vector<string>& strs) {
-        int n = strs.size();
-        if (n == 1) {
-            return strs[0];
-        }
-        int j = -1;
-        bool flag;
-        do {
-            flag = true;
-            char c;
-            for (int i = 0; i < n; i++) {
-                string s = strs[i];
-                if (s.length() == 0) {
-                    return "";
-                }
-                if (s.length() <= j + 1) {
-                    flag = false;
-                    break;
-                }
-                if (i == 0) {
-                    c = s[j + 1];
-                }
-                else {
-                    if (c != s[j + 1]) {
-                        flag = false;
-                        break;
-                    }
-                }
+    string reverseWords(string s) {
+        // 反转整个字符串
+        reverse(s.begin(), s.end());
+
+        int n = s.size();
+        int idx = 0;
+        for (int start = 0; start < n; ++start) {
+            if (s[start] != ' ') {
+                // 填一个空白字符然后将idx移动到下一个单词的开头位置
+                if (idx != 0) s[idx++] = ' ';
+
+                // 循环遍历至单词的末尾
+                int end = start;
+                while (end < n && s[end] != ' ') s[idx++] = s[end++];
+
+                // 反转整个单词
+                reverse(s.begin() + idx - (end - start), s.begin() + idx);
+
+                // 更新start，去找下一个单词
+                start = end;
             }
-            if (flag) {
-                j++;
-            }
-        } while (flag);
-        if (j == -1) {
-            return "";
         }
-        else {
-            return strs[0].substr(0, j + 1);
-        }
+        s.erase(s.begin() + idx, s.end());
+        return s;
     }
 };
