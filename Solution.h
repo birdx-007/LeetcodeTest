@@ -11,13 +11,16 @@
 using namespace std;
 class Solution {
 public:
-    int rob(vector<int>& nums) {
-        int a = 0, b = nums[0], c = nums[0];
-        for (int i = 1; i < (int)nums.size(); i++) {
-            c = max(b, a + nums[i]);
-            a = b;
-            b = c;
+    TreeNode* sortedArrayToBST(vector<int>& nums) {
+        int n = nums.size();
+        return buildChildTree(nums, 0, n - 1);
+    }
+    TreeNode* buildChildTree(vector<int>& nums, int l, int r) {
+        if (l > r) {
+            return nullptr;
         }
-        return c;
+        int m = l + ((r - l) >> 1);
+        TreeNode* root = new TreeNode(nums[m], buildChildTree(nums, l, m - 1), buildChildTree(nums, m + 1, r));
+        return root;
     }
 };
