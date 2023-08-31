@@ -12,26 +12,20 @@
 using namespace std;
 class Solution {
 public:
-    int sumNumbers(TreeNode* root) {
-        int totalSum = 0;
-        int pathSum = 0;
-        sum(root, totalSum, pathSum);
-        return totalSum;
-    }
-    void sum(TreeNode* root, int& totalSum, int& pathSum) {
-        pathSum = pathSum * 10 + root->val;
-        if (root->left == nullptr && root->right == nullptr) {
-            totalSum += pathSum;
-            pathSum /= 10;
-            return;
+    void flatten(TreeNode* root) {
+        TreeNode* cur = root;
+        while (cur) {
+            if (cur->left) {
+                TreeNode* nxt = cur->left;
+                TreeNode* pre = nxt;
+                while (pre->right) {
+                    pre = pre->right;
+                }
+                pre->right = cur->right;
+                cur->right = nxt;
+                cur->left = nullptr;
+            }
+            cur = cur->right;
         }
-        if (root->left) {
-            sum(root->left, totalSum, pathSum);
-        }
-        if (root->right) {
-            sum(root->right, totalSum, pathSum);
-        }
-        pathSum /= 10;
-        return;
     }
 };
