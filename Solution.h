@@ -12,25 +12,32 @@
 using namespace std;
 class Solution {
 public:
-    TreeNode* buildTree(vector<int>& inorder, vector<int>& postorder) {
-        int n = inorder.size();
-        for (int i = 0; i < n; i++) {
-            index[inorder[i]] = i;
+    bool hasPathSum(TreeNode* root, int targetSum) {
+        if (root == nullptr) {
+            return false;
         }
-        return build(inorder, postorder, 0, n - 1, 0, n - 1);
+        int pathSum = 0;
+        return check(root, pathSum, targetSum);
     }
-    TreeNode* build(const vector<int>& inorder,const vector<int>& postorder, int inL, int inR, int postL, int postR) {
-        if (inL > inR) {
-            return nullptr;
+    bool check(TreeNode* root, int& sum, const int& targetSum) {
+        sum += root->val;
+        if (root->left == nullptr && root->right == nullptr) {
+            if (sum == targetSum) {
+                return true;
+            }
+            else {
+                sum -= root->val;
+                return false;
+            }
         }
-        int postRootIndex = postR;
-        int inRootIndex = index[postorder[postRootIndex]];
-        TreeNode* root = new TreeNode(postorder[postRootIndex]);
-        int lengthL = inRootIndex - inL;
-        root->left = build(inorder, postorder, inL, inRootIndex - 1, postL, postL + lengthL - 1);
-        root->right = build(inorder, postorder, inRootIndex + 1, inR, postL + lengthL, postR - 1);
-        return root;
+        bool l = false, r = false;
+        if (root->left) {
+            l = check(root->left, sum, targetSum);
+        }
+        if (!l && root->right) {
+            r = check(root->right, sum, targetSum);
+        }
+        sum -= root->val;
+        return l || r;
     }
-private:
-    unordered_map<int, int> index;
 };
