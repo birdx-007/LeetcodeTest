@@ -6,26 +6,31 @@
 #include <queue>
 #include <string>
 #include <unordered_set>
+#include <unordered_map>
 #include <utility>
 #include <algorithm>
 using namespace std;
 class Solution {
 public:
-    bool wordBreak(string s, vector<string>& wordDict) {
-        unordered_set<string> set;
-        for (auto s : wordDict) {
-            set.insert(s);
+    TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {
+        int n = preorder.size();
+        for (int i = 0; i < n; i++) {
+            index[inorder[i]] = i;
         }
-        vector<bool> dp(s.length() + 1);
-        dp[0] = true;
-        for (int i = 1; i <= s.length(); i++) {
-            for (int j = 0; j < i; j++) {
-                if (dp[j] && set.find(s.substr(j, i - j)) != set.end()) {
-                    dp[i] = true;
-                    break;
-                }
-            }
-        }
-        return dp[s.length()];
+        return build(preorder, inorder, 0, n - 1, 0, n - 1);
     }
+    TreeNode* build(const vector<int>& preorder, const vector<int>& inorder, int preL, int preR, int inL, int inR) {
+        if (preL > preR) {
+            return nullptr;
+        }
+        int preRootIndex = preL;
+        int inRootIndex = index[preorder[preRootIndex]];
+        TreeNode* root = new TreeNode(preorder[preRootIndex]);
+        int lengthL = inRootIndex - inL;
+        root->left = build(preorder, inorder, preL + 1, preL + lengthL, inL, inRootIndex - 1);
+        root->right = build(preorder, inorder, preL + lengthL + 1, preR, inRootIndex + 1, inR);
+        return root;
+    }
+private:
+    unordered_map<int, int> index;
 };
