@@ -12,32 +12,26 @@
 using namespace std;
 class Solution {
 public:
-    bool hasPathSum(TreeNode* root, int targetSum) {
-        if (root == nullptr) {
-            return false;
-        }
+    int sumNumbers(TreeNode* root) {
+        int totalSum = 0;
         int pathSum = 0;
-        return check(root, pathSum, targetSum);
+        sum(root, totalSum, pathSum);
+        return totalSum;
     }
-    bool check(TreeNode* root, int& sum, const int& targetSum) {
-        sum += root->val;
+    void sum(TreeNode* root, int& totalSum, int& pathSum) {
+        pathSum = pathSum * 10 + root->val;
         if (root->left == nullptr && root->right == nullptr) {
-            if (sum == targetSum) {
-                return true;
-            }
-            else {
-                sum -= root->val;
-                return false;
-            }
+            totalSum += pathSum;
+            pathSum /= 10;
+            return;
         }
-        bool l = false, r = false;
         if (root->left) {
-            l = check(root->left, sum, targetSum);
+            sum(root->left, totalSum, pathSum);
         }
-        if (!l && root->right) {
-            r = check(root->right, sum, targetSum);
+        if (root->right) {
+            sum(root->right, totalSum, pathSum);
         }
-        sum -= root->val;
-        return l || r;
+        pathSum /= 10;
+        return;
     }
 };
