@@ -12,22 +12,19 @@
 using namespace std;
 class Solution {
 public:
-    vector<vector<int>> levelOrder(TreeNode* root) {
-        vector<vector<int>> res;
-        if (!root) {
-            return res;
-        }
+    vector<double> averageOfLevels(TreeNode* root) {
+        vector<double> res;
         queue<TreeNode*> q;
         int levelNum;
+        long long levelSum;
         q.push(root);
         while (!q.empty()) {
             levelNum = q.size();
-            res.push_back(vector<int>());
-            while (levelNum > 0) {
-                levelNum--;
+            levelSum = 0;
+            for (int i = 0; i < levelNum;i++) {
                 TreeNode* p = q.front();
                 q.pop();
-                res.back().push_back(p->val);
+                levelSum += p->val;
                 if (p->left) {
                     q.push(p->left);
                 }
@@ -35,6 +32,7 @@ public:
                     q.push(p->right);
                 }
             }
+            res.push_back((double)levelSum / levelNum);
         }
         return res;
     }
