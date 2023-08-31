@@ -12,20 +12,30 @@
 using namespace std;
 class Solution {
 public:
-    void flatten(TreeNode* root) {
-        TreeNode* cur = root;
-        while (cur) {
-            if (cur->left) {
-                TreeNode* nxt = cur->left;
-                TreeNode* pre = nxt;
-                while (pre->right) {
-                    pre = pre->right;
-                }
-                pre->right = cur->right;
-                cur->right = nxt;
-                cur->left = nullptr;
-            }
-            cur = cur->right;
+    vector<vector<int>> levelOrder(TreeNode* root) {
+        vector<vector<int>> res;
+        if (!root) {
+            return res;
         }
+        queue<TreeNode*> q;
+        int levelNum;
+        q.push(root);
+        while (!q.empty()) {
+            levelNum = q.size();
+            res.push_back(vector<int>());
+            while (levelNum > 0) {
+                levelNum--;
+                TreeNode* p = q.front();
+                q.pop();
+                res.back().push_back(p->val);
+                if (p->left) {
+                    q.push(p->left);
+                }
+                if (p->right) {
+                    q.push(p->right);
+                }
+            }
+        }
+        return res;
     }
 };
