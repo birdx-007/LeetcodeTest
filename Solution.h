@@ -12,17 +12,10 @@
 using namespace std;
 class Solution {
 public:
-    int singleNumber(vector<int>& nums) {
-        int n = 0;
-        for (int i = 0; i < 32;i++) {
-            int sum_i = 0;
-            for (int num : nums) {
-                sum_i += (num >> i) & 1;
-            }
-            if (sum_i % 3) {
-                n |= (1 << i);
-            }
+    int rangeBitwiseAnd(int left, int right) {
+        while (left < right) {
+            right = right & (right - 1);
         }
-        return n;
+        return right;
     }
 };
