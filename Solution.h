@@ -12,38 +12,34 @@
 using namespace std;
 class Solution {
 public:
-    int findKthLargest(vector<int>& nums, int k) {
-        int n = nums.size();
-        buildHeap(nums, n);
-        for (int cnt = 0; cnt < k - 1; cnt++) {
-            removeHeapTop(nums, n);
-        }
-        return nums[0];
-    }
-    void buildHeap(vector<int>& nums, int heapSize) {
-        int lastNonLeaveIndex = heapSize / 2 - 1;
-        for (int nonLeaveIndex = lastNonLeaveIndex; nonLeaveIndex >= 0; nonLeaveIndex--) {
-            maxHeapify(nums, nonLeaveIndex, heapSize);
+    
+};
+
+class BSTIterator {
+public:
+    BSTIterator(TreeNode* root) {
+        cur = root;
+        while (cur != nullptr) {
+            stk.push(cur);
+            cur = cur->left;
         }
     }
-    void removeHeapTop(vector<int>& nums, int& heapSize) {
-        int heapTopIndex = 0, heapBottomIndex = heapSize - 1;
-        swap(nums[heapTopIndex], nums[heapBottomIndex]);
-        heapSize--;
-        maxHeapify(nums, heapTopIndex, heapSize);
+
+    int next() {
+        while (cur != nullptr) {
+            stk.push(cur);
+            cur = cur->left;
+        }
+        TreeNode* top = stk.top();
+        stk.pop();
+        cur = top->right;
+        return top->val;
     }
-    void maxHeapify(vector<int>& nums, int nonLeaveIndex, int heapSize) {
-        int leftIndex = nonLeaveIndex * 2 + 1, rightIndex = nonLeaveIndex * 2 + 2;
-        int largestIndex = nonLeaveIndex;
-        if (leftIndex<heapSize && nums[leftIndex]>nums[largestIndex]) {
-            largestIndex = leftIndex;
-        }
-        if (rightIndex<heapSize && nums[rightIndex]>nums[largestIndex]) {
-            largestIndex = rightIndex;
-        }
-        if (largestIndex != nonLeaveIndex) {
-            swap(nums[largestIndex], nums[nonLeaveIndex]);
-            maxHeapify(nums, largestIndex, heapSize);
-        }
+
+    bool hasNext() {
+        return cur != nullptr || !stk.empty();
     }
+private:
+    TreeNode* cur;
+    stack<TreeNode*> stk;
 };
