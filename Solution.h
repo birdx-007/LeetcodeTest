@@ -12,34 +12,25 @@
 using namespace std;
 class Solution {
 public:
-    
-};
-
-class BSTIterator {
-public:
-    BSTIterator(TreeNode* root) {
-        cur = root;
-        while (cur != nullptr) {
-            stk.push(cur);
-            cur = cur->left;
-        }
+    vector<vector<int>> combine(int n, int k) {
+        dfs(1, n, k);
+        return res;
     }
-
-    int next() {
-        while (cur != nullptr) {
-            stk.push(cur);
-            cur = cur->left;
+    void dfs(int cur, int n, int k) {
+        int c_size = c.size();
+        if (c_size + n - cur + 1 < k) {
+            return;
         }
-        TreeNode* top = stk.top();
-        stk.pop();
-        cur = top->right;
-        return top->val;
-    }
-
-    bool hasNext() {
-        return cur != nullptr || !stk.empty();
+        if (c_size == k) {
+            res.push_back(c);
+            return;
+        }
+        c.push_back(cur);
+        dfs(cur + 1, n, k);
+        c.pop_back();
+        dfs(cur + 1, n, k);
     }
 private:
-    TreeNode* cur;
-    stack<TreeNode*> stk;
+    vector<int> c;
+    vector<vector<int>> res;
 };
