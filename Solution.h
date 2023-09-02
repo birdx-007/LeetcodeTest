@@ -12,25 +12,28 @@
 using namespace std;
 class Solution {
 public:
-    vector<vector<int>> combine(int n, int k) {
-        dfs(1, n, k);
+    vector<int> rightSideView(TreeNode* root) {
+        vector<int> res;
+        queue<TreeNode*> q;
+        if (root) {
+            q.push(root);
+        }
+        while (!q.empty()) {
+            int levelNum = q.size();
+            for (int i = 0; i < levelNum; i++) {
+                TreeNode* node = q.front();
+                if (i == levelNum - 1) {
+                    res.push_back(node->val);
+                }
+                q.pop();
+                if (node->left) {
+                    q.push(node->left);
+                }
+                if (node->right) {
+                    q.push(node->right);
+                }
+            }
+        }
         return res;
     }
-    void dfs(int cur, int n, int k) {
-        int c_size = c.size();
-        if (c_size + n - cur + 1 < k) {
-            return;
-        }
-        if (c_size == k) {
-            res.push_back(c);
-            return;
-        }
-        c.push_back(cur);
-        dfs(cur + 1, n, k);
-        c.pop_back();
-        dfs(cur + 1, n, k);
-    }
-private:
-    vector<int> c;
-    vector<vector<int>> res;
 };
