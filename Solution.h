@@ -12,28 +12,14 @@
 using namespace std;
 class Solution {
 public:
-    vector<int> rightSideView(TreeNode* root) {
-        vector<int> res;
-        queue<TreeNode*> q;
-        if (root) {
-            q.push(root);
+    int hIndex(vector<int>& citations) {
+        int n = citations.size();
+        sort(citations.begin(), citations.end());
+        int h = 0, i = n - 1;
+        while (i >= 0 && citations[i] > h) {
+            i--;
+            h++;
         }
-        while (!q.empty()) {
-            int levelNum = q.size();
-            for (int i = 0; i < levelNum; i++) {
-                TreeNode* node = q.front();
-                if (i == levelNum - 1) {
-                    res.push_back(node->val);
-                }
-                q.pop();
-                if (node->left) {
-                    q.push(node->left);
-                }
-                if (node->right) {
-                    q.push(node->right);
-                }
-            }
-        }
-        return res;
+        return h;
     }
 };
