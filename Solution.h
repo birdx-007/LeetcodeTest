@@ -12,17 +12,20 @@
 using namespace std;
 class Solution {
 public:
-    vector<int> productExceptSelf(vector<int>& nums) {
-        int n = nums.size();
-        vector<int> res(n, 1);
-        int leftMul = 1;
-        int rightMul = 1;
-        for (int i = 0; i < n; i++) {
-            res[i] *= leftMul;
-            res[n - 1 - i] *= rightMul;
-            leftMul *= nums[i];
-            rightMul *= nums[n - 1 - i];
+    bool isIsomorphic(string s, string t) {
+        int map1[128];
+        int map2[128];
+        memset(&map1, -1, sizeof(map1));
+        memset(&map2, -1, sizeof(map2));
+        for (int i = 0; i < (int)s.length(); i++) {
+            if (map1[s[i]] == -1 && map2[t[i]] == -1) {
+                map1[s[i]] = t[i];
+                map2[t[i]] = s[i];
+            }
+            else if (map1[s[i]] != t[i] || map2[t[i]] != s[i]) {
+                return false;
+            }
         }
-        return res;
+        return true;
     }
 };
