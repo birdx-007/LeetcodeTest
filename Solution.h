@@ -12,20 +12,17 @@
 using namespace std;
 class Solution {
 public:
-    bool canConstruct(string ransomNote, string magazine) {
-        if (ransomNote.size() > magazine.size()) {
-            return false;
+    vector<int> productExceptSelf(vector<int>& nums) {
+        int n = nums.size();
+        vector<int> res(n, 1);
+        int leftMul = 1;
+        int rightMul = 1;
+        for (int i = 0; i < n; i++) {
+            res[i] *= leftMul;
+            res[n - 1 - i] *= rightMul;
+            leftMul *= nums[i];
+            rightMul *= nums[n - 1 - i];
         }
-        int m[26] = { 0 };
-        for (char c : magazine) {
-            m[c - 'a']++;
-        }
-        for (char c : ransomNote) {
-            if (m[c - 'a'] == 0) {
-                return false;
-            }
-            m[c - 'a']--;
-        }
-        return true;
+        return res;
     }
 };
