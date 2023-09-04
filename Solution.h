@@ -12,20 +12,21 @@
 using namespace std;
 class Solution {
 public:
-    bool isIsomorphic(string s, string t) {
-        int map1[128];
-        int map2[128];
-        memset(&map1, -1, sizeof(map1));
-        memset(&map2, -1, sizeof(map2));
-        for (int i = 0; i < (int)s.length(); i++) {
-            if (map1[s[i]] == -1 && map2[t[i]] == -1) {
-                map1[s[i]] = t[i];
-                map2[t[i]] = s[i];
-            }
-            else if (map1[s[i]] != t[i] || map2[t[i]] != s[i]) {
-                return false;
-            }
-        }
-        return true;
+    TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
+        check(root, p, q);
+        return res;
     }
+    bool check(TreeNode* root, TreeNode* p, TreeNode* q) {
+        if (root == nullptr) {
+            return false;
+        }
+        bool flson = check(root->left, p, q);
+        bool frson = check(root->right, p, q);
+        if ((flson && frson) || ((root->val == p->val || root->val == q->val) && (flson || frson))) {
+            res=root;
+        }
+        return flson || frson || root->val == p->val || root->val == q->val;
+    }
+private:
+    TreeNode* res = nullptr;
 };
