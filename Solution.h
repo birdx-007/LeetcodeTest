@@ -12,11 +12,9 @@
 using namespace std;
 class Solution {
 public:
-    int getMinimumDifference(TreeNode* root) {
+    int kthSmallest(TreeNode* root, int k) {
         stack<TreeNode*> stk;
         TreeNode* cur = root;
-        int pre = -1;
-        int res = 1e5;
         while (cur || !stk.empty()) {
             while (cur) {
                 stk.push(cur);
@@ -24,15 +22,12 @@ public:
             }
             cur = stk.top();
             stk.pop();
-            if (pre == -1) {
-                pre = cur->val;
-            }
-            else {
-                res = min(res, cur->val - pre);
-                pre = cur->val;
+            k--;
+            if (k == 0) {
+                return cur->val;
             }
             cur = cur->right;
         }
-        return res;
+        return -1;
     }
 };
