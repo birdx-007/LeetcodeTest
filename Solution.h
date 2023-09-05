@@ -12,12 +12,20 @@
 using namespace std;
 class Solution {
 public:
-    bool canJump(vector<int>& nums) {
-        int k = 0;
-        for (int i = 0; i < nums.size(); i++) {
-            if (i > k) return false;
-            k = max(k, i + nums[i]);
+    int jump(vector<int>& nums) {
+        int n = nums.size();
+        if (n == 1) {
+            return 0;
         }
-        return true;
+        int cnt = 0;
+        int left = 0, right = 0 + nums[0];
+        while (right < n - 1) {
+            cnt++;
+            int i = left, j = right;
+            for (left = right + 1; i <= j; i++) {
+                right = max(right, i + nums[i]);
+            }
+        }
+        return cnt + 1;
     }
 };
