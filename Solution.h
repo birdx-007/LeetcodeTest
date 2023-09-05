@@ -12,22 +12,12 @@
 using namespace std;
 class Solution {
 public:
-    int kthSmallest(TreeNode* root, int k) {
-        stack<TreeNode*> stk;
-        TreeNode* cur = root;
-        while (cur || !stk.empty()) {
-            while (cur) {
-                stk.push(cur);
-                cur = cur->left;
-            }
-            cur = stk.top();
-            stk.pop();
-            k--;
-            if (k == 0) {
-                return cur->val;
-            }
-            cur = cur->right;
+    bool canJump(vector<int>& nums) {
+        int k = 0;
+        for (int i = 0; i < nums.size(); i++) {
+            if (i > k) return false;
+            k = max(k, i + nums[i]);
         }
-        return -1;
+        return true;
     }
 };
