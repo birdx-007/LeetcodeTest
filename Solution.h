@@ -12,20 +12,22 @@
 using namespace std;
 class Solution {
 public:
-    int jump(vector<int>& nums) {
-        int n = nums.size();
-        if (n == 1) {
-            return 0;
-        }
-        int cnt = 0;
-        int left = 0, right = 0 + nums[0];
-        while (right < n - 1) {
-            cnt++;
-            int i = left, j = right;
-            for (left = right + 1; i <= j; i++) {
-                right = max(right, i + nums[i]);
+    vector<int> twoSum(vector<int>& numbers, int target) {
+        int n = numbers.size();
+        int index1 = 0, index2 = n - 1;
+        while (index1 < index2) {
+            int sum = numbers[index1] + numbers[index2];
+            if (sum == target) {
+                vector<int> res = { index1 + 1,index2 + 1 };
+                return res;
+            }
+            else if (sum < target) {
+                index1++;
+            }
+            else {
+                index2--;
             }
         }
-        return cnt + 1;
+        return vector<int>(2, 0);
     }
 };
