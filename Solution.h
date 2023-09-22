@@ -12,17 +12,21 @@
 using namespace std;
 class Solution {
 public:
-    vector<int> twoSum(vector<int>& nums, int target) {
-        unordered_map<int, int> indexMap;
-        int n = nums.size();
-        for (int i = 0; i < n; i++) {
-            if (indexMap.find(target - nums[i]) == indexMap.end()) {
-                indexMap[nums[i]] = i;
-            }
-            else {
-                return { indexMap[target - nums[i]],i };
-            }
+    int getNext(int n) {
+        int m = 0;
+        while (n > 0) {
+            m += (n % 10) * (n % 10);
+            n /= 10;
         }
-        return { -1,-1 };
+        return m;
+    }
+    bool isHappy(int n) {
+        int slow = n;
+        int fast = getNext(n);
+        while (fast != 1 && fast != slow) {
+            slow = getNext(slow);
+            fast = getNext(getNext(fast));
+        }
+        return fast == 1;
     }
 };
